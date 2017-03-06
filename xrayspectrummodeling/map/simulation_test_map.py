@@ -36,8 +36,6 @@ import h5py
 import numpy as np
 
 # Local modules.
-import pyHendrixDemersTools.Files as Files
-import pyHendrixDemersTools.Graphics as Graphics
 
 import pymcxray.BatchFileConsole as BatchFileConsole
 import pymcxray.mcxray as mcxray
@@ -57,6 +55,7 @@ import pymcxray.FileFormat.Element as Element
 from pymcxray.FileFormat.Results.ElectronTrajectoriesResults import ElectronTrajectoriesResults, COLOR_REGION
 
 # Project modules.
+from xrayspectrummodeling import get_current_module_path, get_mcxray_program_name
 
 # Globals and constants variables.
 
@@ -300,18 +299,16 @@ class SimulationTestLinescansMM2017(SimulationTestMapsMM2017):
 
 
 def run():
-    Graphics.setDefaultDisplay()
+    configurationFilepath = get_current_module_path(__file__, "../../MCXRay_latest.cfg")
 
-    configurationFilepath = Files.getCurrentModulePath(__file__, "../../MCXRay_latest.cfg")
+    programName = get_mcxray_program_name(configurationFilepath)
 
-    programName = Files.getMCXRayProgramName(configurationFilepath)
-
-    batchFile = BatchFileConsole.BatchFileConsole("BatchSimulationTestMapsMM2017", programName, numberFiles=6)
+    batchFile = BatchFileConsole.BatchFileConsole("BatchSimulationTestMapsMM2017", programName, numberFiles=10)
     analyze = SimulationTestMapsMM2017(relativePath=r"mcxray/SimulationTestMapsMM2017", configurationFilepath=configurationFilepath)
     analyze.overwrite = False
     analyze.run(batchFile)
 
-    batchFile = BatchFileConsole.BatchFileConsole("BatchSimulationTestLinescansMM2017", programName, numberFiles=6)
+    batchFile = BatchFileConsole.BatchFileConsole("BatchSimulationTestLinescansMM2017", programName, numberFiles=10)
     analyze = SimulationTestLinescansMM2017(relativePath=r"mcxray/SimulationTestLinescansMM2017", configurationFilepath=configurationFilepath)
     analyze.overwrite = False
     analyze.run(batchFile)
@@ -322,8 +319,8 @@ if __name__ == '__main__': #pragma: no cover
     import sys
     logging.getLogger().setLevel(logging.INFO)
     logging.info(sys.argv)
-    #sys.argv.append(mcxray.ANALYZE_TYPE_GENERATE_INPUT_FILE)
+    sys.argv.append(mcxray.ANALYZE_TYPE_GENERATE_INPUT_FILE)
     #sys.argv.append(mcxray.ANALYZE_TYPE_CHECK_PROGRESS)
-    sys.argv.append(mcxray.ANALYZE_TYPE_ANALYZE_RESULTS)
+    #sys.argv.append(mcxray.ANALYZE_TYPE_ANALYZE_RESULTS)
     #sys.argv.append(mcxray.ANALYZE_TYPE_ANALYZE_SCHEDULED_READ)
     run()

@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: mcxray.map.test_simulation_data
-   :synopsis: Tests for the module :py:mod:`pymcgill.mcxray.simulation_data as simulation_data`
+.. py:currentmodule:: xrayspectrummodeling.map.test_simulation_data
+   :synopsis: Tests for the module :py:mod:`xrayspectrummodeling.map.simulation_data as simulation_data`
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the module :py:mod:`pymcgill.mcxray.simulation_data as simulation_data`.
+Tests for the module :py:mod:`xrayspectrummodeling.map.simulation_data as simulation_data`.
 """
 
 ###############################################################################
@@ -36,17 +36,17 @@ from nose import SkipTest
 import numpy as np
 
 # Local modules.
-from pyHendrixDemersTools.Files import getCurrentModulePath
 
 # Project modules.
-from pymcgill.mcxray.map.simulation_data import SimulationData
-from pymcgill.mcxray.map.positions import Positions
+from xrayspectrummodeling import get_current_module_path
+from xrayspectrummodeling.map.simulation_data import SimulationData
+from xrayspectrummodeling.map.positions import Positions
 
 # Globals and constants variables.
 
 class TestSimulationData(unittest.TestCase):
     """
-    TestCase class for the module `pymcgill.mcxray.simulation_data`.
+    TestCase class for the module `xrayspectrummodeling.map.simulation_data`.
     """
 
     def setUp(self):
@@ -56,7 +56,7 @@ class TestSimulationData(unittest.TestCase):
 
         unittest.TestCase.setUp(self)
 
-        self.hdf5_file_path = getCurrentModulePath(__file__, "../../../test_data/mcxray/map/SimulationMapsMM2017_3x3.hdf5")
+        self.hdf5_file_path = get_current_module_path(__file__, "../../../test_data/mcxray/map/SimulationMapsMM2017_3x3.hdf5")
 
         if not os.path.isfile(self.hdf5_file_path):
             raise SkipTest

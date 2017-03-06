@@ -35,7 +35,7 @@ import numpy as np
 # Local modules.
 
 # Project modules.
-from pymcgill.mcxray.map.positions import Positions
+from xrayspectrummodeling.map.positions import Positions
 
 # Globals and constants variables.
 

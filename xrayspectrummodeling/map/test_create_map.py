@@ -35,7 +35,7 @@ import numpy as np
 # Local modules.
 
 # Project modules.
-from pymcgill.mcxray.map.create_map import change_energy_scale, change_energy_scale2
+from xrayspectrummodeling.map.create_map import change_energy_scale, change_energy_scale2
 
 
 # Globals and constants variables.

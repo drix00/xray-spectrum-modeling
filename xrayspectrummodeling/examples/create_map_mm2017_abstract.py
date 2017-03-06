@@ -35,12 +35,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Local modules.
-from pySpectrumFileFormat.Bruker.MapRaw.MapRawFormat import MapRawFormat
 
 # Project modules.
-from pymcgill.mcxray.map.positions import Positions
-from pymcgill.mcxray.map.create_map import _create_electron_maps, _create_intensity_maps, _create_spectra, \
-    _create_maps, _export_raw_map
+from xrayspectrummodeling.map.positions import Positions
+from xrayspectrummodeling.map.create_map import _create_electron_maps, _create_intensity_maps, _create_spectra, \
+    _create_spectra_maps, _export_raw_map
 
 # Globals and constants variables.
 
@@ -58,18 +57,20 @@ def run_map_mm2017_abstract(data_path):
 
     _create_electron_maps(data_path, hdf5_file_path, position)
 
-    #_create_intensity_maps(data_path, hdf5_file_path, position)
+    _create_intensity_maps(data_path, hdf5_file_path, position)
 
-    #_create_spectra(data_path, hdf5_file_path, position)
+    _create_spectra(data_path, hdf5_file_path, position)
 
-    #_create_maps(data_path, hdf5_file_path, hdf5_file_out_path, position)
+    _create_spectra_maps(data_path, hdf5_file_path, hdf5_file_out_path, position)
 
-    #_export_raw_map(hdf5_file_out_path)
+    _export_raw_map(hdf5_file_out_path)
 
     file_path = hdf5_file_out_path[:-5] + "_" + "map_5000_us" + ".raw"
-    #_read_raw_map(file_path)
+    _read_raw_map(file_path)
 
 def _read_raw_map(file_path):
+    from pySpectrumFileFormat.Bruker.MapRaw.MapRawFormat import MapRawFormat
+
     mapRaw = MapRawFormat(file_path)
 
     channels, datacube = mapRaw.getDataCube()

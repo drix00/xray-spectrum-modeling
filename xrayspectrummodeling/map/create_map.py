@@ -40,12 +40,10 @@ import numpy as np
 import matplotlib.colors as colors
 
 # Local modules.
-from pySpectrumFileFormat.Bruker.MapRaw.ParametersFile import ParametersFile, BYTE_ORDER_LITTLE_ENDIAN, RECORED_BY_VECTOR, DATA_TYPE_SIGNED
-from pySpectrumFileFormat.Bruker.MapRaw.MapRawFormat import MapRawFormat
 
 # Project modules.
-from pymcgill.mcxray.map.simulation_data import SimulationData
-from pymcgill.mcxray.map.positions import Positions
+from xrayspectrummodeling.map.simulation_data import SimulationData
+from xrayspectrummodeling.map.positions import Positions
 
 # Globals and constants variables.
 MAP_WIDTH = "width"
@@ -183,6 +181,9 @@ def create_map_mm2017_abstract(data_path, figure=False):
 
 
 def export_raw_test_map(data_path):
+    from pySpectrumFileFormat.Bruker.MapRaw.ParametersFile import ParametersFile, BYTE_ORDER_LITTLE_ENDIAN, RECORED_BY_VECTOR, DATA_TYPE_SIGNED
+    from pySpectrumFileFormat.Bruker.MapRaw.MapRawFormat import MapRawFormat
+
     hdf5_file_out_path = os.path.join(data_path, r"analyzes\test_maps.hdf5")
     with h5py.File(hdf5_file_out_path, 'r', driver='core') as hdf5_file:
         maps_group = hdf5_file["maps"]
@@ -214,6 +215,9 @@ def export_raw_test_map(data_path):
 
 
 def read_raw_test_map(data_path):
+    from pySpectrumFileFormat.Bruker.MapRaw.ParametersFile import ParametersFile, BYTE_ORDER_LITTLE_ENDIAN, RECORED_BY_VECTOR, DATA_TYPE_SIGNED
+    from pySpectrumFileFormat.Bruker.MapRaw.MapRawFormat import MapRawFormat
+
     file_path = os.path.join(data_path, r"test_maps_map_1000000_us.raw")
     mapRaw = MapRawFormat(file_path)
 
@@ -241,6 +245,9 @@ def read_raw_test_map(data_path):
     plt.imshow(image, cmap="gray")
 
 def export_raw_map_mm2017_abstract(data_path):
+    from pySpectrumFileFormat.Bruker.MapRaw.ParametersFile import ParametersFile, BYTE_ORDER_LITTLE_ENDIAN, RECORED_BY_VECTOR, DATA_TYPE_SIGNED
+    from pySpectrumFileFormat.Bruker.MapRaw.MapRawFormat import MapRawFormat
+
     hdf5_file_out_path = os.path.join(data_path, r"map_mm2017_abstract.hdf5")
     with h5py.File(hdf5_file_out_path, 'r', driver='core') as hdf5_file:
         maps_group = hdf5_file["maps"]
@@ -271,6 +278,9 @@ def export_raw_map_mm2017_abstract(data_path):
                 del fp
 
 def read_raw_map_mm2017_abstract(data_path):
+    from pySpectrumFileFormat.Bruker.MapRaw.ParametersFile import ParametersFile, BYTE_ORDER_LITTLE_ENDIAN, RECORED_BY_VECTOR, DATA_TYPE_SIGNED
+    from pySpectrumFileFormat.Bruker.MapRaw.MapRawFormat import MapRawFormat
+
     file_path = os.path.join(data_path, r"map_mm2017_abstract_map_10000000_us.raw")
     mapRaw = MapRawFormat(file_path)
 
@@ -641,8 +651,8 @@ def change_energy_scale2(energy_data, intensity_data, energy_edges_keV):
     return counts_data
 
 
-def _create_maps(data_path, hdf5_file_path, hdf5_file_out_path, positions):
-    logging.info("_create_maps")
+def _create_spectra_maps(data_path, hdf5_file_path, hdf5_file_out_path, positions):
+    logging.info("_create_spectra_maps")
 
     depth = 1024
     data_type = np.int32
@@ -778,6 +788,9 @@ def _compute_number_electrons(current_nA, time_s):
 
 
 def _export_raw_map(hdf5_file_path):
+    from pySpectrumFileFormat.Bruker.MapRaw.ParametersFile import ParametersFile, BYTE_ORDER_LITTLE_ENDIAN, RECORED_BY_VECTOR, DATA_TYPE_SIGNED
+    from pySpectrumFileFormat.Bruker.MapRaw.MapRawFormat import MapRawFormat
+
     logging.info("_export_raw_map")
 
     with h5py.File(hdf5_file_path, 'r', driver='core') as hdf5_file:
