@@ -44,6 +44,7 @@ import matplotlib.colors as colors
 # Project modules.
 from xrayspectrummodeling.map.simulation_data import SimulationData
 from xrayspectrummodeling.map.positions import Positions
+from xrayspectrummodeling import get_current_module_path
 
 # Globals and constants variables.
 MAP_WIDTH = "width"
@@ -105,8 +106,8 @@ class DetectorFunction(object):
         return self._electronicNoise_eV
 
 
-def get_efficiency(data_path):
-    file_path = os.path.join(data_path, r"SimulationMapsMM2017_Maps01_E30d0keV_N10000e_N1000X_PX0d0PY0d0nm_XrayDetectorEfficiency.csv")
+def get_efficiency():
+    file_path = get_current_module_path(__file__,  r"../../data/mcxray_XrayDetectorEfficiency.csv")
     data = np.loadtxt(file_path, float, delimiter=',',)
 
     return data
@@ -124,7 +125,7 @@ def create_test_map(data_path, figure=True):
     solid_angle_rad = 0.00140035
     detector_noise_eV = 50
 
-    efficiency = get_efficiency(data_path)
+    efficiency = get_efficiency()
 
     xs_nm = np.linspace(-5.0e3, 5.0e3, width)
 
@@ -160,7 +161,7 @@ def create_map_mm2017_abstract(data_path, figure=False):
     solid_angle_rad = 0.00140035
     detector_noise_eV = 50
 
-    efficiency = get_efficiency(data_path)
+    efficiency = get_efficiency()
 
     xs_nm = np.linspace(-5.0e3, 5.0e3, width)
 
@@ -523,7 +524,7 @@ def _create_spectra(data_path, hdf5_file_path, positions):
         current_nA = 1.0
         solid_angle_rad = 0.00140035
         detector_noise_eV = 50
-        efficiency = get_efficiency(data_path)
+        efficiency = get_efficiency()
         time_s = 100.0
         depth = 128
 
@@ -660,7 +661,7 @@ def _create_spectra_maps(data_path, hdf5_file_path, hdf5_file_out_path, position
     solid_angle_rad = 0.00140035
     detector_noise_eV = 50
 
-    efficiency = get_efficiency(data_path)
+    efficiency = get_efficiency()
 
     with h5py.File(hdf5_file_path, 'r', driver='core') as hdf5_file:
         simulations_group = hdf5_file["simulations"]
