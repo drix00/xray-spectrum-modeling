@@ -49,6 +49,11 @@ Go in the project folder and install it with pip in developer mode:
     $ cd xray-spectrum-modeling
     $ pip install -e .
 
+.. note::
+
+   The project use Git LFS for the test data file. Follow the information on `Git LFS <https://git-lfs.github.com/>`_
+   to get the test data when the repository is pull.
+
 From sources
 ------------
 

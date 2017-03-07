@@ -28,6 +28,7 @@ Create map from the mcxray simulation.
 
 # Standard library modules.
 import logging
+import os
 import os.path
 
 # Third party modules.
@@ -44,8 +45,12 @@ from xrayspectrummodeling.map.create_map import _create_electron_maps, _create_i
 # Globals and constants variables.
 
 def run_maps(data_path):
-    hdf5_file_path = os.path.join(data_path, "SimulationMapsMM2017_3x3.hdf5")
+    hdf5_file_path = os.path.join(data_path, "SimulationTestMapsMM2017.hdf5")
     hdf5_file_out_path = os.path.join(data_path, "map_mm2017_abstract_3x3.hdf5")
+
+    figure_path = os.path.join(data_path, "figures")
+    if not os.path.isdir(figure_path):
+        os.makedirs(figure_path)
 
     position = Positions()
     position.x_pixels = 3
