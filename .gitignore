@@ -95,6 +95,3 @@ ENV/
 .settings
 .project
 .pydevproject
-
-# ignore configuration file.
-*.cfg
