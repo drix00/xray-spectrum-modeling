@@ -9,8 +9,8 @@ xray-spectrum-modeling
 .. image:: https://img.shields.io/travis/drix00/xrayspectrummodeling.svg
         :target: https://travis-ci.org/drix00/xrayspectrummodeling
 
-.. image:: https://readthedocs.org/projects/xrayspectrummodeling/badge/?version=latest
-        :target: https://xrayspectrummodeling.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/xray-spectrum-modeling/badge/?version=latest
+        :target: https://xray-spectrum-modeling.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
 .. image:: https://pyup.io/repos/github/drix00/xrayspectrummodeling/shield.svg
@@ -22,7 +22,7 @@ Modeling of an X-ray spectrum in EDS detector
 
 
 * Free software: Apache Software License 2.0
-* Documentation: https://xrayspectrummodeling.readthedocs.io.
+* Documentation: https://xray-spectrum-modeling.readthedocs.io.
 
 
 Features
