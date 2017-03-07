@@ -79,7 +79,7 @@ With the correct positions, you can create different maps and spectra:
 
 .. note::
 
-   You need to have the project `xray_spectrum_analyzer <https://github.com/drix00/xray_spectrum_analyzer>`_ installed to use `_export_raw_map`.
+   You need to have the project `microanalysis_file_format <https://github.com/drix00/microanalysis_file_format>`_ installed to use `_export_raw_map`.
 
 This example shows a good pratice when working with xray-spectrum-modeling.
 Use a small set of position to test the simulation and the code creating the x-ray spectrum and map.
@@ -92,7 +92,7 @@ When everything is OK, run the larger probe positions to have a reallistic map.
    A 128x128 map with a high dose with a acquisition time of 1000 s can take between 30 minutes to 1 hour.
 
 To verify the map creation, the method `_read_raw_map` can be used.
-But you need to have the project `xray_spectrum_analyzer <https://github.com/drix00/xray_spectrum_analyzer>`_ installed.
+But you need to have the project `microanalysis_file_format <https://github.com/drix00/microanalysis_file_format>`_ installed.
 
 .. code-block:: python
 
@@ -106,7 +106,7 @@ create_map_mm2017_abstract
 
 This example is very similar to the previous one, but it create a 128x128 maps.
 
-The only difference is different hdf5 files are specidied and the positions list is different.
+The only difference is different hdf5 files are specified and the positions list is different.
 
 .. code-block:: python
 
