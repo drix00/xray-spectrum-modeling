@@ -5,6 +5,11 @@ Installation
 ============
 
 
+.. warning::
+
+    Some feature of xray-spectrum-modeling need the microanalysis_file_format project to be installed.
+    The project can be found on github: `microanalysis_file_format <https://github.com/drix00/microanalysis_file_format>`_
+
 Stable release
 --------------
 
@@ -35,13 +40,13 @@ Clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/drix00/xrayspectrummodeling
+    $ git clone git://github.com/drix00/xray-spectrum-modeling
 
-Go in the project folder and install it with pip in devloper mode:
+Go in the project folder and install it with pip in developer mode:
 
 .. code-block:: console
 
-    $ cd xrayspectrummodeling
+    $ cd xray-spectrum-modeling
     $ pip install -e .
 
 From sources
@@ -53,13 +58,13 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/drix00/xrayspectrummodeling
+    $ git clone git://github.com/drix00/xray-spectrum-modeling
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl  -OL https://github.com/drix00/xrayspectrummodeling/tarball/master
+    $ curl  -OL https://github.com/drix00/xray-spectrum-modeling/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -68,5 +73,5 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/drix00/xrayspectrummodeling
-.. _tarball: https://github.com/drix00/xrayspectrummodeling/tarball/master
+.. _Github repo: https://github.com/drix00/xray-spectrum-modeling
+.. _tarball: https://github.com/drix00/xray-spectrum-modeling/tarball/master
