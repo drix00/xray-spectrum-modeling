@@ -10,7 +10,7 @@ xray-spectrum-modeling
         :target: https://travis-ci.org/drix00/xrayspectrummodeling
 
 .. image:: https://readthedocs.org/projects/xray-spectrum-modeling/badge/?version=latest
-        :target: https://xray-spectrum-modeling.readthedocs.io/en/latest/?badge=latest
+        :target: https://docs.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
 .. image:: https://pyup.io/repos/github/drix00/xrayspectrummodeling/shield.svg
