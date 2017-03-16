@@ -417,7 +417,7 @@ def _create_electron_maps(data_path, hdf5_file_path, positions):
 
 
 def _create_intensity_maps(data_path, hdf5_file_path, positions):
-    symbols = ['Fe', 'Co', 'Ni']
+    symbols = ['Fe', 'Co']
     simulation_data = SimulationData(hdf5_file_path, positions, symbols)
 
     intensity_data = {}
