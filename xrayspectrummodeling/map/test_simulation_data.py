@@ -56,7 +56,7 @@ class TestSimulationData(unittest.TestCase):
 
         unittest.TestCase.setUp(self)
 
-        self.hdf5_file_path = get_current_module_path(__file__, "../../../test_data/mcxray/map/SimulationMapsMM2017_3x3.hdf5")
+        self.hdf5_file_path = get_current_module_path(__file__, "../../test_data/SimulationTestMapsMM2017.hdf5")
 
         if not os.path.isfile(self.hdf5_file_path):
             raise SkipTest
@@ -93,17 +93,14 @@ class TestSimulationData(unittest.TestCase):
         """
         position = self.generate_3x3_positions()
 
-        bse_ref = np.array([[0.065299999999999997, 0.074300000000000005, 0.077899999999999997],
-                        [0.066900000000000001, 0.077600000000000002, 0.072800000000000004],
-                        [0.069599999999999995, 0.077600000000000002, 0.076399999999999996]])
-
-        bse_ref = np.array([[0.065299999999999997, 0.066900000000000001, 0.069599999999999995],
-                        [0.074300000000000005, 0.077600000000000002, 0.077600000000000002],
-                        [0.077899999999999997, 0.072800000000000004, 0.076399999999999996]])
+        bse_ref = np.array([[0.0651, 0.0654, 0.0659],
+                            [0.0777, 0.0743, 0.0749],
+                            [0.0704, 0.0696, 0.0734]])
 
         simulation_data = SimulationData(self.hdf5_file_path, position, None)
 
         bse = simulation_data.get_bse_map()
+        #print(bse)
 
         shape = bse_ref.shape
         for i in range(shape[0]):
@@ -119,13 +116,14 @@ class TestSimulationData(unittest.TestCase):
         """
         position = self.generate_3x3_positions()
 
-        te_ref = np.array([[0.67210000000000003, 0.66969999999999996, 0.67100000000000004],
-                        [0.62080000000000002, 0.6331, 0.61850000000000005],
-                        [0.63319999999999999, 0.63739999999999997, 0.6341]])
+        te_ref = np.array([[0.6784, 0.6754, 0.6734],
+                           [0.6356, 0.6241, 0.6260],
+                           [0.6379, 0.6391, 0.6405]])
 
         simulation_data = SimulationData(self.hdf5_file_path, position, None)
 
         te = simulation_data.get_te_map()
+        #print(te)
 
         shape = te_ref.shape
         for i in range(shape[0]):
@@ -141,13 +139,14 @@ class TestSimulationData(unittest.TestCase):
         """
         position = self.generate_3x3_positions()
 
-        se_ref = np.array([[0.26250000000000001, 0.26329999999999998, 0.25929999999999997],
-                        [0.30480000000000002, 0.28920000000000001, 0.30380000000000001],
-                        [0.2888, 0.28970000000000001, 0.28939999999999999]])
+        se_ref = np.array([[0.2564, 0.2591, 0.2606],
+                           [0.2866, 0.3015, 0.2990],
+                           [0.2916, 0.2912, 0.2860]])
 
         simulation_data = SimulationData(self.hdf5_file_path, position, None)
 
         se = simulation_data.get_skirted_electron_map()
+        #print(se)
 
         shape = se_ref.shape
         for i in range(shape[0]):

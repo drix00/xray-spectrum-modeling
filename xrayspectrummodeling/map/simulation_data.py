@@ -34,6 +34,7 @@ import numpy as np
 import h5py
 
 # Local modules.
+from pymcxray.mcxray import HDF5_PARAMETERS
 
 # Project modules.
 
@@ -70,14 +71,15 @@ class SimulationData():
             simulations_group = hdf5_file["simulations"]
 
             for group in simulations_group.values():
-                try:
-                    index_x, index_y = self.find_position_index(self.positions, group.attrs["beamPosition"])
-                    bse = group["ElectronResults"].attrs[result_name]
-                    electron_result_map[index_y, index_x] = bse
+                if not group.name.endswith(HDF5_PARAMETERS):
+                    try:
+                        index_x, index_y = self.find_position_index(self.positions, group.attrs["beamPosition"])
+                        bse = group["ElectronResults"].attrs[result_name]
+                        electron_result_map[index_y, index_x] = bse
 
-                except IndexError as message:
-                    logging.debug(message)
-                    logging.debug("%s", group.name)
+                    except IndexError as message:
+                        logging.debug(message)
+                        logging.debug("%s", group.name)
 
         return electron_result_map
 
@@ -102,15 +104,16 @@ class SimulationData():
             simulations_group = hdf5_file["simulations"]
 
             for group in simulations_group.values():
-                try:
-                    index_x, index_y = self.find_position_index(self.positions, group.attrs["beamPosition"])
-                    for symbol in self.symbols:
-                        intensity = group["Intensity"][symbol]
-                        self.intensity_data_map[symbol][index_y, index_x] = intensity[...]
+                if not group.name.endswith(HDF5_PARAMETERS):
+                    try:
+                        index_x, index_y = self.find_position_index(self.positions, group.attrs["beamPosition"])
+                        for symbol in self.symbols:
+                            intensity = group["Intensity"][symbol]
+                            self.intensity_data_map[symbol][index_y, index_x] = intensity[...]
 
-                except IndexError as message:
-                    logging.info(message)
-                    logging.info("%s", group.name)
+                    except IndexError as message:
+                        logging.info(message)
+                        logging.info("%s", group.name)
 
     def get_emitted_spectrum(self, position):
         with h5py.File(self.hdf5_file_path, 'r', driver='core') as hdf5_file:
@@ -118,14 +121,15 @@ class SimulationData():
             simulations_group = hdf5_file["simulations"]
 
             for group in simulations_group.values():
-                try:
-                    index_x, index_y = self.find_position_index(self.positions, group.attrs["beamPosition"])
-                    energy_data = group["XraySpectraRegionsEmitted/energies_keV"][:]
-                    intensity_data_1_ekeVsr = group["XraySpectraRegionsEmitted/total_1_ekeVsr"][:]
+                if not group.name.endswith(HDF5_PARAMETERS):
+                    try:
+                        index_x, index_y = self.find_position_index(self.positions, group.attrs["beamPosition"])
+                        energy_data = group["XraySpectraRegionsEmitted/energies_keV"][:]
+                        intensity_data_1_ekeVsr = group["XraySpectraRegionsEmitted/total_1_ekeVsr"][:]
 
-                except IndexError as message:
-                    logging.debug(message)
-                    logging.debug("%s", group.name)
+                    except IndexError as message:
+                        logging.debug(message)
+                        logging.debug("%s", group.name)
 
         return energy_data, intensity_data_1_ekeVsr
 
@@ -135,14 +139,15 @@ class SimulationData():
             simulations_group = hdf5_file["simulations"]
 
             for group in simulations_group.values():
-                try:
-                    index_x, index_y = self.find_position_index(self.positions, group.attrs["beamPosition"])
-                    energy_data = group["XraySpectraSpecimenEmittedDetected/Energy (keV)"][:]
-                    intensity_data = group["XraySpectraSpecimenEmittedDetected/Spectra Total"][:]
+                if not group.name.endswith(HDF5_PARAMETERS):
+                    try:
+                        index_x, index_y = self.find_position_index(self.positions, group.attrs["beamPosition"])
+                        energy_data = group["XraySpectraSpecimenEmittedDetected/Energy (keV)"][:]
+                        intensity_data = group["XraySpectraSpecimenEmittedDetected/Spectra Total"][:]
 
-                except IndexError as message:
-                    logging.debug(message)
-                    logging.debug("%s", group.name)
+                    except IndexError as message:
+                        logging.debug(message)
+                        logging.debug("%s", group.name)
 
         return energy_data, intensity_data
 
