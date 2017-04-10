@@ -40,6 +40,7 @@ import numpy as np
 import matplotlib.colors as colors
 
 # Local modules.
+from pymcxray.mcxray import HDF5_PARAMETERS
 
 # Project modules.
 from xrayspectrummodeling.map.simulation_data import SimulationData
@@ -667,7 +668,7 @@ def _create_spectra_maps(data_path, hdf5_file_path, hdf5_file_out_path, position
         simulations_group = hdf5_file["simulations"]
 
         times_s = [0.005, 0.01, 0.05, 0.1, 0.5, 1.0, 5.0, 10.0, 50.0, 100.0, 500.0, 1000.0]
-        #times_s = [1000.0]
+        times_s = [0.1]
 
         with h5py.File(hdf5_file_out_path, 'a', driver='core') as hdf5_file:
             maps_group = hdf5_file.require_group("maps")
@@ -690,19 +691,20 @@ def _create_map(current_nA, data_type, depth, detector_noise_eV, efficiency, map
     data = np.zeros(shape, dtype=data_type)
 
     for group in simulations_group.values():
-        try:
-            index_x = np.where(positions.xs_nm == group.attrs["beamPosition"][0])[0][0]
-            index_y = np.where(positions.ys_nm == group.attrs["beamPosition"][1])[0][0]
+        if not group.name.endswith(HDF5_PARAMETERS):
+            try:
+                index_x = np.where(positions.xs_nm == group.attrs["beamPosition"][0])[0][0]
+                index_y = np.where(positions.ys_nm == group.attrs["beamPosition"][1])[0][0]
 
-            nominal_number_electrons, number_electrons = _compute_number_electrons(current_nA, time_s)
+                nominal_number_electrons, number_electrons = _compute_number_electrons(current_nA, time_s)
 
-            delta_energy_keV, energy_data, intensity_data = _compute_intensity(efficiency, group, number_electrons,
-                                                                               solid_angle_rad, depth)
-            xrays = _compute_xrays(detector_noise_eV, energy_data, intensity_data)
+                delta_energy_keV, energy_data, intensity_data = _compute_intensity(efficiency, group, number_electrons,
+                                                                                   solid_angle_rad, depth)
+                xrays = _compute_xrays(detector_noise_eV, energy_data, intensity_data)
 
-            counts, energies_keV = _compute_counts(data, depth, index_x, index_y, xrays)
-        except IndexError:
-            pass
+                counts, energies_keV = _compute_counts(data, depth, index_x, index_y, xrays)
+            except IndexError:
+                pass
 
     _write_map(current_nA, data, data_type, depth, detector_noise_eV, energies_keV, maps_group,
                nominal_number_electrons, shape, solid_angle_rad, time_s, positions)

@@ -60,17 +60,17 @@ def run_maps(data_path):
     position.minimum_y_nm = -5.0e3
     position.maximum_y_nm = 5.0e3
 
-    _create_electron_maps(data_path, hdf5_file_path, position)
+    #_create_electron_maps(data_path, hdf5_file_path, position)
 
-    _create_intensity_maps(data_path, hdf5_file_path, position)
+    #_create_intensity_maps(data_path, hdf5_file_path, position)
 
-    _create_spectra(data_path, hdf5_file_path, position)
+    #_create_spectra(data_path, hdf5_file_path, position)
 
     _create_spectra_maps(data_path, hdf5_file_path, hdf5_file_out_path, position)
 
     _export_raw_map(hdf5_file_out_path)
 
-    file_path = hdf5_file_out_path[:-5] + "_" + "map_1000000_us" + ".raw"
+    file_path = hdf5_file_out_path[:-5] + "_" + "map_100000_us" + ".raw"
     _read_raw_map(file_path)
 
 def _read_raw_map(file_path):
@@ -124,7 +124,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         data_path = sys.argv[1]
     else:
-        data_path = r"D:\work\Dropbox\hdemers\professional\results\simulations\mcxray\SimulationMapsMM2017\analyzes"
+        data_path = r"C:\hdemers\coding\github\xray-spectrum-modeling\test_data"
 
     logging.debug(sys.argv)
     logging.info(data_path)
