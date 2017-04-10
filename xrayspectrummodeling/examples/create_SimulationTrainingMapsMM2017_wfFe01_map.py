@@ -45,8 +45,8 @@ from xrayspectrummodeling.map.create_map import _create_electron_maps, _create_i
 # Globals and constants variables.
 
 def run_maps(data_path):
-    hdf5_file_path = os.path.join(data_path, "SimulationTrainingMapsMM2017_wfFe01.hdf5")
-    hdf5_file_out_path = os.path.join(data_path, "map_SimulationTrainingMapsMM2017_wfFe01.hdf5")
+    hdf5_file_path = os.path.join(data_path, "SimulationTrainingMapsMM2017_wfFe99.hdf5")
+    hdf5_file_out_path = os.path.join(data_path, "map_wfFe99_10.hdf5")
 
     figure_path = os.path.join(data_path, "figures")
     if not os.path.isdir(figure_path):
@@ -68,9 +68,9 @@ def run_maps(data_path):
 
     _create_spectra_maps(data_path, hdf5_file_path, hdf5_file_out_path, position)
 
-    _export_raw_map(hdf5_file_out_path)
+    #_export_raw_map(hdf5_file_out_path)
 
-    file_path = hdf5_file_out_path[:-5] + "_" + "map_1000000_us" + ".raw"
+    #file_path = hdf5_file_out_path[:-5] + "_" + "map_1000000_us" + ".raw"
     #_read_raw_map(file_path)
 
 def _read_raw_map(file_path):
