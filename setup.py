@@ -26,7 +26,7 @@ packages = find_packages()
 
 setup(
     name='xrayspectrummodeling',
-    version='0.1.0',
+    version='0.2.0',
     description="Modeling of an X-ray spectrum in EDS detector",
     long_description=readme + '\n\n' + history,
     author="Hendrix Demers",
