@@ -37,6 +37,7 @@ import numpy as np
 
 # Globals and constants variables.
 
+
 class Positions():
     def __init__(self):
         self.x_pixels = 0

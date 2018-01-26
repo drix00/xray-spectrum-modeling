@@ -37,14 +37,12 @@ import matplotlib.pyplot as plt
 from scipy.constants import e
 from numpy.random import normal, poisson
 import numpy as np
-import matplotlib.colors as colors
 
 # Local modules.
 from pymcxray.mcxray import HDF5_PARAMETERS
 
 # Project modules.
 from xrayspectrummodeling.map.simulation_data import SimulationData
-from xrayspectrummodeling.map.positions import Positions
 from xrayspectrummodeling import get_current_module_path
 
 # Globals and constants variables.
@@ -64,23 +62,24 @@ MAP_DATA_WIDTH_nm = "widths (nm)"
 MAP_DATA_HEIGHT_nm = "heights (nm)"
 MAP_DATA_DEPTH_keV = "energies (keV)"
 
+
 class DetectorFunction(object):
-    def __init__(self, electronicNoise_eV, FanoFactor=0.125):
-        self._electronicNoise_eV = electronicNoise_eV
-        self._FanoFactor = FanoFactor
-        self._electronHolePair_eV = 3.8
-        self._numericFactor = 2.0 * math.sqrt(2.0 * math.log(2.0))
+    def __init__(self, electronic_noise_eV, fano_factor=0.125):
+        self._electronic_noise_eV = electronic_noise_eV
+        self._fano_factor = fano_factor
+        self._electron_hole_pair_eV = 3.8
+        self._numeric_factor = 2.0 * math.sqrt(2.0 * math.log(2.0))
 
     def getFwhm_eV(self, xrayEnergy_eV):
-        term1 = self._electronicNoise_eV**2
-        term2 = self._numericFactor*self._numericFactor*self._electronHolePair_eV*self._FanoFactor*xrayEnergy_eV
+        term1 = self._electronic_noise_eV ** 2
+        term2 = self._numeric_factor * self._numeric_factor * self._electron_hole_pair_eV * self._fano_factor * xrayEnergy_eV
         fwhm_eV = math.sqrt(term1 + term2)
 
         return fwhm_eV
 
     def get_fwhms_eV(self, xray_energies_eV):
-        term1 = self._electronicNoise_eV**2
-        term2 = self._numericFactor*self._numericFactor*self._electronHolePair_eV*self._FanoFactor*xray_energies_eV
+        term1 = self._electronic_noise_eV ** 2
+        term2 = self._numeric_factor * self._numeric_factor * self._electron_hole_pair_eV * self._fano_factor * xray_energies_eV
         fwhms_eV = np.sqrt(term1 + term2)
 
         return fwhms_eV
@@ -90,7 +89,7 @@ class DetectorFunction(object):
         fwhm_eV = self.getFwhm_eV(xrayEnergy_eV)
         fwhm_keV = fwhm_eV/1.0e3
 
-        sigma_keV = fwhm_keV/self._numericFactor
+        sigma_keV = fwhm_keV/self._numeric_factor
 
         return sigma_keV
 
@@ -99,12 +98,12 @@ class DetectorFunction(object):
         fwhms_eV = self.get_fwhms_eV(xray_energies_eV)
         fwhms_keV = fwhms_eV/1.0e3
 
-        sigmas_keV = fwhms_keV/self._numericFactor
+        sigmas_keV = fwhms_keV/self._numeric_factor
 
         return sigmas_keV
 
     def getElectronicNoise_eV(self):
-        return self._electronicNoise_eV
+        return self._electronic_noise_eV
 
 
 def get_efficiency():
@@ -112,6 +111,7 @@ def get_efficiency():
     data = np.loadtxt(file_path, float, delimiter=',',)
 
     return data
+
 
 def create_test_map(data_path, figure=True):
     compositions = {1: "Fe-1wt%Co", 2: "Fe-2wt%Co", 3: "Fe-5wt%Co",
@@ -146,7 +146,6 @@ def create_test_map(data_path, figure=True):
                 _create_map(compositions, current_nA, data_type, depth, detector_noise_eV, efficiency, figure,
                             hdf5_file_out_path, height, maps_group, simulations_group, solid_angle_rad, time_s, width,
                             xs_nm)
-
 
 
 def create_map_mm2017_abstract(data_path, figure=False):
@@ -184,7 +183,6 @@ def create_map_mm2017_abstract(data_path, figure=False):
 
 def export_raw_test_map(data_path):
     from pySpectrumFileFormat.Bruker.MapRaw.ParametersFile import ParametersFile, BYTE_ORDER_LITTLE_ENDIAN, RECORED_BY_VECTOR, DATA_TYPE_SIGNED
-    from pySpectrumFileFormat.Bruker.MapRaw.MapRawFormat import MapRawFormat
 
     hdf5_file_out_path = os.path.join(data_path, r"analyzes\test_maps.hdf5")
     with h5py.File(hdf5_file_out_path, 'r', driver='core') as hdf5_file:
@@ -217,38 +215,37 @@ def export_raw_test_map(data_path):
 
 
 def read_raw_test_map(data_path):
-    from pySpectrumFileFormat.Bruker.MapRaw.ParametersFile import ParametersFile, BYTE_ORDER_LITTLE_ENDIAN, RECORED_BY_VECTOR, DATA_TYPE_SIGNED
     from pySpectrumFileFormat.Bruker.MapRaw.MapRawFormat import MapRawFormat
 
     file_path = os.path.join(data_path, r"test_maps_map_1000000_us.raw")
-    mapRaw = MapRawFormat(file_path)
+    map_raw = MapRawFormat(file_path)
 
-    channels, datacube = mapRaw.getDataCube()
+    channels, datacube = map_raw.getDataCube()
     plt.figure()
     plt.plot(channels, datacube[1,1,:])
 
-    xData, yData = mapRaw.getSpectrum(1, 1)
+    x_data, y_data = map_raw.getSpectrum(1, 1)
 
     plt.figure()
-    plt.plot(xData, yData)
+    plt.plot(x_data, y_data)
 
-    xData, yData = mapRaw.getSumSpectrum()
+    x_data, y_data = map_raw.getSumSpectrum()
 
     plt.figure()
-    plt.plot(xData, yData)
+    plt.plot(x_data, y_data)
 
-    image = mapRaw.getTotalIntensityImage()
+    image = map_raw.getTotalIntensityImage()
     plt.figure()
     plt.imshow(image, cmap="gray")
 
     roi = (210, 225)
-    image = mapRaw.getRoiIntensityImage(roi)
+    image = map_raw.getRoiIntensityImage(roi)
     plt.figure()
     plt.imshow(image, cmap="gray")
 
+
 def export_raw_map_mm2017_abstract(data_path):
     from pySpectrumFileFormat.Bruker.MapRaw.ParametersFile import ParametersFile, BYTE_ORDER_LITTLE_ENDIAN, RECORED_BY_VECTOR, DATA_TYPE_SIGNED
-    from pySpectrumFileFormat.Bruker.MapRaw.MapRawFormat import MapRawFormat
 
     hdf5_file_out_path = os.path.join(data_path, r"map_mm2017_abstract.hdf5")
     with h5py.File(hdf5_file_out_path, 'r', driver='core') as hdf5_file:
@@ -279,14 +276,14 @@ def export_raw_map_mm2017_abstract(data_path):
                 fp[:] = map_data_set[:]
                 del fp
 
+
 def read_raw_map_mm2017_abstract(data_path):
-    from pySpectrumFileFormat.Bruker.MapRaw.ParametersFile import ParametersFile, BYTE_ORDER_LITTLE_ENDIAN, RECORED_BY_VECTOR, DATA_TYPE_SIGNED
     from pySpectrumFileFormat.Bruker.MapRaw.MapRawFormat import MapRawFormat
 
     file_path = os.path.join(data_path, r"map_mm2017_abstract_map_10000000_us.raw")
-    mapRaw = MapRawFormat(file_path)
+    map_raw = MapRawFormat(file_path)
 
-    channels, datacube = mapRaw.getDataCube()
+    channels, datacube = map_raw.getDataCube()
     print(datacube.shape)
 
     plt.figure()
@@ -309,32 +306,33 @@ def read_raw_map_mm2017_abstract(data_path):
     plt.plot(channels, datacube[1,1,:])
     plt.close()
 
-    xData, yData = mapRaw.getSpectrum(1, 1)
+    x_data, y_data = map_raw.getSpectrum(1, 1)
 
     plt.figure()
-    plt.plot(xData, yData)
+    plt.plot(x_data, y_data)
     plt.close()
 
-    xData, yData = mapRaw.getSumSpectrum()
+    x_data, y_data = map_raw.getSumSpectrum()
 
     plt.figure()
-    plt.plot(xData, yData)
+    plt.plot(x_data, y_data)
     plt.close()
 
-    image = mapRaw.getTotalIntensityImage()
+    image = map_raw.getTotalIntensityImage()
     plt.figure()
     plt.imshow(image, cmap="gray")
     plt.close()
 
     roi = (225, 235)
-    image = mapRaw.getRoiIntensityImage(roi)
+    image = map_raw.getRoiIntensityImage(roi)
     plt.figure()
     plt.imshow(image, cmap="gray")
     plt.close()
 
     plt.figure()
-    plt.plot(xData, np.linspace(0.0, 30.0, len(xData)))
+    plt.plot(x_data, np.linspace(0.0, 30.0, len(x_data)))
     plt.close()
+
 
 def bse_image_mm2017(data_path):
     hdf5_file_path = os.path.join(data_path, r"SimulationMapsMM2017.hdf5")
@@ -369,7 +367,7 @@ def bse_image_mm2017(data_path):
 
         figure_file_path = os.path.join(data_path, "bse_image.png")
         plt.savefig(figure_file_path)
-        #plt.close()
+        # plt.close()
 
 
 def _create_electron_maps(data_path, hdf5_file_path, positions):
@@ -384,7 +382,7 @@ def _create_electron_maps(data_path, hdf5_file_path, positions):
     plt.yticks([])
     figure_file_path = os.path.join(data_path, "figures", "bse_image.png")
     plt.savefig(figure_file_path)
-    #plt.close()
+    # plt.close()
 
     # TE map
     te_map = simulation_data.get_te_map()
@@ -414,7 +412,7 @@ def _create_electron_maps(data_path, hdf5_file_path, positions):
     plt.yticks([])
     figure_file_path = os.path.join(data_path, "figures", "transmitted_electron_image.png")
     plt.savefig(figure_file_path)
-    #plt.close()
+    # plt.close()
 
 
 def _create_intensity_maps(data_path, hdf5_file_path, positions):
@@ -432,7 +430,6 @@ def _create_intensity_maps(data_path, hdf5_file_path, positions):
         try:
             plt.figure()
             plt.title("{} Ka generated".format(symbol))
-            #plt.imshow(intensity_map, cmap='gray', norm=colors.LogNorm(vmin=intensity_map.min(), vmax=intensity_map.max()))
             plt.imshow(intensity_map, cmap='gray')
             plt.colorbar()
             plt.xticks([])
@@ -450,7 +447,6 @@ def _create_intensity_maps(data_path, hdf5_file_path, positions):
         try:
             plt.figure()
             plt.title("{} Ka emitted".format(symbol))
-            #plt.imshow(intensity_map, cmap='gray', norm=colors.LogNorm(vmin=intensity_map.min(), vmax=intensity_map.max()))
             plt.imshow(intensity_map, cmap='gray')
             plt.colorbar()
             plt.xticks([])
@@ -479,17 +475,18 @@ def _create_intensity_maps(data_path, hdf5_file_path, positions):
         try:
             plt.figure()
             plt.title("{} Ka emitted".format(symbol))
-            #plt.imshow(fratio_element_map, cmap='gray', norm=colors.LogNorm(vmin=0.001, vmax=1.0))
+            # plt.imshow(fratio_element_map, cmap='gray', norm=colors.LogNorm(vmin=0.001, vmax=1.0))
             plt.imshow(fratio_element_map, cmap='gray', vmin=0.0, vmax=1.0)
             plt.colorbar()
             plt.xticks([])
             plt.yticks([])
             figure_file_path = os.path.join(data_path, "figures", "fratio_{}_ka_emitted_image.png".format(symbol))
             plt.savefig(figure_file_path)
-            #plt.close()
+            # plt.close()
         except ValueError as message:
             logging.error(message)
             logging.info(symbol)
+
 
 def _create_spectra(data_path, hdf5_file_path, positions):
     symbols = ['Fe', 'Co', 'Ni']
@@ -533,7 +530,8 @@ def _create_spectra(data_path, hdf5_file_path, positions):
         logging.debug("{} {}".format(nominal_number_electrons, number_electrons))
 
         energy_data, intensity_data_1_ekeVsr = simulation_data.get_emitted_spectrum(position)
-        intensity_efficiency_data_1_ekeVsr = intensity_data_1_ekeVsr * np.interp(energy_data, efficiency[:, 0], efficiency[:, 1])
+        intensity_efficiency_data_1_ekeVsr = intensity_data_1_ekeVsr * np.interp(energy_data, efficiency[:, 0],
+                                                                                 efficiency[:, 1])
         plt.figure()
         title = "{} ({}, {})".format("Emitted * efficiency", position[0], position[1])
         plt.title(title)
@@ -547,7 +545,6 @@ def _create_spectra(data_path, hdf5_file_path, positions):
         plt.close()
 
         delta_energy_keV = energy_data[1] - energy_data[0]
-        #intensity_data = np.around(intensity_efficiency_data_1_ekeVsr * number_electrons * solid_angle_rad * delta_energy_keV)
         intensity_data = intensity_efficiency_data_1_ekeVsr * number_electrons * solid_angle_rad * delta_energy_keV
 
         plt.figure()
@@ -577,7 +574,7 @@ def _create_spectra(data_path, hdf5_file_path, positions):
         file_name = "{}_{}_{}_t{}s.png".format("Spectrum_Emitted_Counts", position[0], position[1], time_s)
         figure_file_path = os.path.join(data_path, "figures", file_name)
         plt.savefig(figure_file_path)
-        #plt.close()
+        # plt.close()
 
         detector = DetectorFunction(detector_noise_eV)
         sigmas_keV = detector.get_sigmas_keV(energies_keV)
@@ -588,7 +585,7 @@ def _create_spectra(data_path, hdf5_file_path, positions):
         plt.plot(energies_keV, fwhms_eV/1.0e3)
         plt.xlabel("Energy (keV)")
         plt.ylabel("Sigma (keV)")
-        #plt.ylim(ymin=1)
+        # plt.ylim(ymin=1)
         file_name = "{}_{}_{}_t{}s.png".format("Detector", position[0], position[1], time_s)
         figure_file_path = os.path.join(data_path, "figures", file_name)
         plt.savefig(figure_file_path)
@@ -605,7 +602,7 @@ def _create_spectra(data_path, hdf5_file_path, positions):
 
             counts, _bin_edges = np.histogram(xrays, bins=energy_edges_keV)
             mean_intensity += counts
-            #plt.semilogy(energies_keV, counts, label=repetition)
+            # plt.semilogy(energies_keV, counts, label=repetition)
             logging.debug("{:d} {:d} {:d}".format(int(np.sum(counts_data)), len(xrays), int(np.sum(counts_data)-len(xrays))))
             logging.debug("{:d} {:d} {:d}".format(len(xrays), int(np.sum(counts)) , len(xrays) - int(np.sum(counts))))
 
@@ -616,11 +613,12 @@ def _create_spectra(data_path, hdf5_file_path, positions):
         plt.xlabel("Energy (keV)")
         plt.ylabel("Intensity (photons)")
         plt.ylim(ymin=1)
-        #plt.legend()
+        # plt.legend()
         file_name = "{}_{}_{}_t{}s.png".format("Spectrum_Detected", position[0], position[1], time_s)
         figure_file_path = os.path.join(data_path, "figures", file_name)
         plt.savefig(figure_file_path)
-        #plt.close()
+        # plt.close()
+
 
 def compute_histogram(energy_data, intensity_data, energy_edges_keV):
     xrays = []
@@ -631,6 +629,7 @@ def compute_histogram(energy_data, intensity_data, energy_edges_keV):
     logging.info("{:d} {:d} {:d}".format(int(np.sum(intensity_data)), len(xrays), int(np.sum(intensity_data) - len(xrays))))
 
     return counts_data
+
 
 def change_energy_scale(energy_data, intensity_data, energy_edges_keV):
     counts_data = np.zeros((len(energy_edges_keV)-1), dtype=np.float)
@@ -677,8 +676,9 @@ def _create_spectra_maps(data_path, hdf5_file_path, hdf5_file_out_path, position
                 _create_map(current_nA, data_type, depth, detector_noise_eV, efficiency, maps_group,
                             simulations_group, solid_angle_rad, time_s, positions)
 
-def _create_map(current_nA, data_type, depth, detector_noise_eV, efficiency, maps_group,
-                            simulations_group, solid_angle_rad, time_s, positions):
+
+def _create_map(current_nA, data_type, depth, detector_noise_eV, efficiency, maps_group, simulations_group,
+                solid_angle_rad, time_s, positions):
     logging.info("_create_map {}".format(time_s))
 
     time_us = time_s * 1.0e6
@@ -716,7 +716,7 @@ def _write_map(current_nA, data, data_type, depth, detector_noise_eV, energies_k
 
     detector = DetectorFunction(detector_noise_eV)
     time_us = time_s * 1.0e6
-    map_name = "map %i us" % (time_us)
+    map_name = "map {} us".format(time_us)
     map_data_set = maps_group.require_dataset(map_name, shape, dtype=data_type)
     map_data_set[...] = data
     map_data_set.attrs[MAP_WIDTH] = positions.x_pixels
@@ -786,13 +786,12 @@ def _compute_number_electrons(current_nA, time_s):
         number_electrons = poisson(nominal_number_electrons)
     except ValueError as message:
         number_electrons = normal(nominal_number_electrons, np.sqrt(nominal_number_electrons))
-        # number_electrons = nominal_number_electrons
     return nominal_number_electrons, number_electrons
 
 
 def _export_raw_map(hdf5_file_path):
-    from pySpectrumFileFormat.Bruker.MapRaw.ParametersFile import ParametersFile, BYTE_ORDER_LITTLE_ENDIAN, RECORED_BY_VECTOR, DATA_TYPE_SIGNED
-    from pySpectrumFileFormat.Bruker.MapRaw.MapRawFormat import MapRawFormat
+    from pySpectrumFileFormat.Bruker.MapRaw.ParametersFile import ParametersFile, BYTE_ORDER_LITTLE_ENDIAN, \
+        RECORED_BY_VECTOR, DATA_TYPE_SIGNED
 
     logging.info("_export_raw_map")
 
@@ -838,14 +837,14 @@ if __name__ == '__main__':
     logging.debug(sys.argv)
     logging.info(data_path)
 
-    #create_test_map(data_path, figure=True)
-    #export_raw_test_map(data_path)
-    #read_raw_test_map(data_path)
-    #create_map_mm2017_abstract(data_path)
-    #export_raw_map_mm2017_abstract(data_path)
-    #read_raw_map_mm2017_abstract(data_path)
+    # create_test_map(data_path, figure=True)
+    # export_raw_test_map(data_path)
+    # read_raw_test_map(data_path)
+    # create_map_mm2017_abstract(data_path)
+    # export_raw_map_mm2017_abstract(data_path)
+    # read_raw_map_mm2017_abstract(data_path)
 
-    #bse_image_mm2017(data_path)
+    # bse_image_mm2017(data_path)
 
     logging.info("Done")
     plt.show()

@@ -2,16 +2,15 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: xrayspectrummodeling.map.noisy_map
-   :synopsis: Create x-ray map with noise.
+.. py:currentmodule:: tests.map.__init__
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Create x-ray map with noise.
+Tests for pyspectrummodeling.map package.
 """
 
 ###############################################################################
-# Copyright 2017 Hendrix Demers
+# Copyright 2018 Hendrix Demers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

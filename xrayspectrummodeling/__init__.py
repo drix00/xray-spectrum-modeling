@@ -2,12 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: create_map
-   :synopsis: Create map from the mcxray simulation.
+.. py:currentmodule:: xrayspectrunmodeling
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Create map from the mcxray simulation.
+Create a x-ray spectrum with realistic noise.
 """
 
 ###############################################################################
@@ -28,8 +27,6 @@ Create map from the mcxray simulation.
 
 # Standard library modules.
 import os.path
-import logging
-import configparser
 
 # Third party modules.
 
@@ -40,15 +37,13 @@ import configparser
 # Globals and constants variables.
 __author__ = """Hendrix Demers"""
 __email__ = 'hendrix.demers@mail.mcgill.ca'
-__version__ = '0.1.0'
+__version__ = '0.2.0'
 
 
-def get_current_module_path(modulePath, relativePath=""):
-    basepath = os.path.dirname(modulePath)
-    #logging.debug(basepath)
+def get_current_module_path(module_path, relative_path=""):
+    basepath = os.path.dirname(module_path)
 
-    filepath = os.path.join(basepath, relativePath)
-    #logging.debug(filepath)
+    filepath = os.path.join(basepath, relative_path)
     filepath = os.path.normpath(filepath)
 
     return filepath

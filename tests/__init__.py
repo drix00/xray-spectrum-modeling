@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: examples
+.. py:currentmodule:: tests
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Package containing examples for xrayspectrummodeling project.
+Package containing all tests for xrayspectrummodeling project.
 """
 
 ###############################################################################

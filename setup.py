@@ -10,7 +10,12 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 requirements = [
-    "numpy", "h5py", "matplotlib", "scipy"
+    "numpy",
+    "h5py",
+    "matplotlib",
+    "scipy",
+    "pymcxray",
+    "pySpectrumFileFormat",
 ]
 
 test_requirements = [

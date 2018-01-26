@@ -29,7 +29,6 @@ Tests for the module :py:mod:`xrayspectrummodeling.map.simulation_data as simula
 # Standard library modules.
 import unittest
 import os.path
-import logging
 
 # Third party modules.
 from nose import SkipTest
@@ -43,6 +42,7 @@ from xrayspectrummodeling.map.simulation_data import SimulationData
 from xrayspectrummodeling.map.positions import Positions
 
 # Globals and constants variables.
+
 
 class TestSimulationData(unittest.TestCase):
     """
@@ -73,7 +73,7 @@ class TestSimulationData(unittest.TestCase):
         First test to check if the testcase is working with the testing framework.
         """
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")
         self.assert_(True)
 
     def generate_3x3_positions(self):
@@ -100,7 +100,7 @@ class TestSimulationData(unittest.TestCase):
         simulation_data = SimulationData(self.hdf5_file_path, position, None)
 
         bse = simulation_data.get_bse_map()
-        #print(bse)
+        # print(bse)
 
         shape = bse_ref.shape
         for i in range(shape[0]):
@@ -108,7 +108,7 @@ class TestSimulationData(unittest.TestCase):
                 message = "(%s, %s)" % (j, i)
                 self.assertAlmostEquals(bse_ref[j ,i], bse[j, i], 6, message)
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")
 
     def test_get_te_map(self):
         """
@@ -123,7 +123,7 @@ class TestSimulationData(unittest.TestCase):
         simulation_data = SimulationData(self.hdf5_file_path, position, None)
 
         te = simulation_data.get_te_map()
-        #print(te)
+        # print(te)
 
         shape = te_ref.shape
         for i in range(shape[0]):
@@ -131,7 +131,7 @@ class TestSimulationData(unittest.TestCase):
                 message = "(%s, %s)" % (j, i)
                 self.assertAlmostEquals(te_ref[j ,i], te[j, i], 6, message)
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")
 
     def test_get_skirted_electron_map(self):
         """
@@ -146,7 +146,7 @@ class TestSimulationData(unittest.TestCase):
         simulation_data = SimulationData(self.hdf5_file_path, position, None)
 
         se = simulation_data.get_skirted_electron_map()
-        #print(se)
+        # print(se)
 
         shape = se_ref.shape
         for i in range(shape[0]):
@@ -154,7 +154,7 @@ class TestSimulationData(unittest.TestCase):
                 message = "(%s, %s)" % (j, i)
                 self.assertAlmostEquals(se_ref[j ,i], se[j, i], 6, message)
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")
 
     def test_find_position_index(self):
         """
@@ -228,7 +228,7 @@ class TestSimulationData(unittest.TestCase):
         self.assertEquals(index_x_ref, index_x)
         self.assertEquals(index_y_ref, index_y)
 
-        #self.fail("Test if the testcase is working.")
+        # self.fail("Test if the testcase is working.")
 
 
 if __name__ == '__main__':  # pragma: no cover

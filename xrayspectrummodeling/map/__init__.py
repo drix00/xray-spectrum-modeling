@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: mcxray.map.__init__
-   :synopsis: Package that create map from mcxray simulations.
+.. py:currentmodule:: pyspectrummodeling.map.__init__
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 

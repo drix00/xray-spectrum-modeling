@@ -2,12 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: create_map
-   :synopsis: Create map from the mcxray simulation.
+.. py:currentmodule:: create_map_mm2017_abstract
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Create map from the mcxray simulation.
+Create map from the mcxray simulation for MM2017 abstract.
 """
 
 ###############################################################################
@@ -43,6 +42,7 @@ from xrayspectrummodeling.map.create_map import _create_electron_maps, _create_i
 
 # Globals and constants variables.
 
+
 def run_map_mm2017_abstract(data_path):
     hdf5_file_path = os.path.join(data_path, "SimulationMapsMM2017.hdf5")
     hdf5_file_out_path = os.path.join(data_path, "map_mm2017_abstract_128x128.hdf5")
@@ -68,6 +68,7 @@ def run_map_mm2017_abstract(data_path):
     file_path = hdf5_file_out_path[:-5] + "_" + "map_5000_us" + ".raw"
     _read_raw_map(file_path)
 
+
 def _read_raw_map(file_path):
     from pySpectrumFileFormat.Bruker.MapRaw.MapRawFormat import MapRawFormat
 
@@ -89,30 +90,31 @@ def _read_raw_map(file_path):
     plt.figure()
     plt.title("One spectrum for 1 s")
     plt.semilogy(xData, yData)
-    #plt.close()
+    # plt.close()
 
     xData, yData = mapRaw.getSumSpectrum()
     plt.figure()
     plt.title("Sum spectrum")
     plt.plot(xData, yData)
-    #plt.close()
+    # plt.close()
 
     image = mapRaw.getTotalIntensityImage()
     plt.figure()
     plt.title("Total intensity")
     plt.imshow(image, cmap="gray")
-    #plt.close()
+    # plt.close()
 
     roi = (225, 235)
     image = mapRaw.getRoiIntensityImage(roi)
     plt.figure()
     plt.title("Co intensity")
     plt.imshow(image, cmap="gray")
-    #plt.close()
+    # plt.close()
 
     plt.figure()
     plt.plot(xData, np.linspace(0.0, 30.0, len(xData)))
     plt.close()
+
 
 if __name__ == '__main__':
     import sys

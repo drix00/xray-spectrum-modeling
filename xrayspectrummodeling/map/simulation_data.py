@@ -40,6 +40,7 @@ from pymcxray.mcxray import HDF5_PARAMETERS
 
 # Globals and constants variables.
 
+
 class SimulationData():
     def __init__(self, hdf5_file_path, positions, symbols):
         self.hdf5_file_path = hdf5_file_path
